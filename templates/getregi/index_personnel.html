@@ -1,0 +1,73 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Personnel</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2012" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="current" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="Genes" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="Home" href="/gtdb/" >Home</a>
+	</div>
+	
+	<div class='middleBox'>
+		{% if personnel_list %}
+		<div class="subTitleBox">List of personnel</div>
+		</br>
+			{% for personnel in personnel_list %}
+			<ul>
+				<li>
+					<p><a href="/personnel/{{ personnel.id }}/" target="blank">{{ personnel.pers_title|capfirst }} {{ personnel.pers_lastname|capfirst }}, {{ personnel.pers_firstname|capfirst }} ({{ personnel.pers_lab.lab_name|capfirst }}, {{ personnel.pers_lab.lab_cityname|capfirst }}, {{ personnel.pers_lab.lab_countryname|capfirst }})</a></p>
+				</li>
+			</ul>
+			{% endfor %}
+			
+		{% else %}
+		<h1>No personnel is available.</h1>
+		{% endif %}
+		</br>
+	</div>
+	
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+
+</body>
+</html>

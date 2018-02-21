@@ -1,0 +1,108 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gene - {{ gene.gene_name }}</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2015" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="Personnel" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="Genes" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="Home" href="/gtdb/" >Home</a>
+	</div>
+
+	<div class='middleBox'>
+		<h1>{{ gene.gene_name|capfirst }} ({{ gene.gene_shortname|capfirst }}) gene</h1>
+		
+		<div class="subTitleBox">Gene details</div>
+		<ul>
+			<li><p><i>Name:</i> {{ gene.gene_name|capfirst }} ({{ gene.gene_shortname|capfirst }})</p></li>
+			<li><p><i>Synonyms:</i> {{ gene.gene_synonym|capfirst }}</p></li>
+			<li><p><i>Description:</i> {{ gene.gene_description|capfirst }}</p></li>
+			<li><p><i>Cross references:</i></li>
+				<ul>
+				{% if gene.gene_xrefomim %} 
+				<li><p><a href="http://www.omim.org/entry/{{ gene.gene_xrefomim }}" target="blank">OMIM entry #{{ gene.gene_xrefomim }}</a></p></li>
+				{% endif %}
+				{% if gene.gene_xrefhgnc %}
+				<li><p><a href="http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id={{ gene.gene_xrefhgnc }}" target="blank">HGNC entry #{{ gene.gene_xrefhgnc }}</a></p></li>
+				{% endif %}
+				{% if gene.gene_xref %}
+				<li><p><a>{{ gene.gene_xref }}</a></p></li>
+				{% endif %}
+				</ul>
+			</li>
+			</p>
+		</ul>
+		
+		<div class="subTitleBox">Associated diseases</div>
+			{% if gene.diseasegene_set.all %}
+			{% for a in gene.diseasegene_set.all %}
+			<ul>
+				<li><p><a href="/diseases/{{ a.disease.id }}/" target="blank">{{ a.disease.disease_name|capfirst }} ({{ a.disease.disease_shortname|capfirst }})</a></p></li>
+			</ul>
+			{% endfor %}
+			{% else %}
+			<ul>
+				<li><p><i>No diseases associated with this gene</i></p></li>
+			</ul>
+			{% endif %}
+		
+		<div class="subTitleBox">Genetic tests</div>
+			{% if gene.testgene_set.all %}
+			{% for a in gene.testgene_set.all %}
+			<ul>
+				<li><p><a href="/genetictests/{{ a.test.id }}/" target="blank">{{ a.test.test_name|capfirst }} ({{ a.test.test_lab.lab_name|capfirst }})</a></p></li>
+			</ul>
+			{% endfor %}
+			{% else %}
+			<ul>
+				<li><p><i>No genetic tests associated with this gene</i></p></li>
+			</ul>
+			{% endif %}
+			<br/>
+	
+	</div>
+
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+	
+</body>
+</html>

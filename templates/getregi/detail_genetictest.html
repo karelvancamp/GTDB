@@ -1,0 +1,350 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test - {{ genetictest.test_name }}</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2015" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="Personnel" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="Genes" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="Home" href="/gtdb/" >Home</a>
+	</div>
+
+	<div class='middleBox'>
+		<h1>{{ genetictest.test_name|capfirst }}</h1>
+		<h1><i>{{ genetictest.test_lab|capfirst }} - {{ genetictest.test_lab.lab_instituteshortname|capfirst }}</i></h1>
+		
+		<div class="subTitleBox">Test details</div>
+		<ul>
+			<li><p><i>Name:</i> {{ genetictest.test_name|capfirst }} ({{ genetictest.test_shortname|capfirst }})</p></li>
+			<li><p><i>LOINC:</i> {{ genetictest.test_loinc }}</p></li>
+			<li><p><i>Commercial name:</i> {{ genetictest.test_commercialname|capfirst }}</p></li>
+			<li><p><i>Category:</i> {{ genetictest.test_category|capfirst }}</p></li>
+			<li><p><i>Target:</i> {{ genetictest.test_target|capfirst }}</p></li>
+			<li><p><i>Purpose:</i></li>
+<!--		
+			<ul>
+				{% for a in genetictest.testpurpose_set.all %}
+					<li><p>{{ a.purpose }}</p></li>
+				{% endfor %}
+			</ul>
+-->			
+			<ul>
+				{% for a in purpose_list %}
+				{% if a.purpose.purp_description %}
+					<li>
+						<p>{{ a.purpose.purp_name }}
+						<span id="popupdiv"><a class="description">&#160?&#160</a>
+						<span id="popuptext">{{ a.purpose.purp_description }}</span>
+						</span>
+						</p>
+					</li>
+				{% else %}
+					<li>
+						<p>{{ a.purpose.purp_name }}
+						<span id="popupdiv"><a class="description">&#160?&#160</a>
+						<span id="popuptext"><i>No description available</i></span>
+						</span>
+						</p>
+					</li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+			
+			</p>
+			<li><p><i>Turn around time (projected):</i> {{ genetictest.test_tat }}</p></li>
+		</ul>
+		
+		<div class="subTitleBox">Test location</div>
+		<ul>
+			<li><p><i>Laboratory:</i> <a href="/laboratories/{{ genetictest.test_lab.id }}/" target="blank">{{ genetictest.test_lab.lab_name|capfirst }}</a></p></li>
+			<li><p><i>Contact person:</i> <a href="/personnel/{{ genetictest.test_personnelcontact.id }}/" target="blank">{{ genetictest.test_personnelcontact.pers_title|capfirst }} {{ genetictest.test_personnelcontact.pers_lastname|capfirst }}, {{ genetictest.test_personnelcontact.pers_firstname|capfirst }}</a></p></li>
+			<li><p><i>Website:</i> <a href="{{ genetictest.test_url }}" target="blank">{{ genetictest.test_url }}</a></p></li>
+			<li><p><i>Location:</i> {{ genetictest.test_location }}</p></li>
+			{% if genetictest.test_lab.id != genetictest.test_outsidelab.id %}
+			<li><p><i>Outside laboratory:</i> <a href="/laboratories/{{ genetictest.test_outsidelab.id }}/" target="blank">{{ genetictest.test_outsidelab.lab_name|capfirst }}</a></p></li>
+			{% else %}
+			{% endif %}
+		</ul>
+		
+		<div class="subTitleBox">Test targets</div>
+			<ul>
+			<li><p>Diseases</p></li>
+			{% if disease_list %}
+			{% for a in disease_list %}
+			<ul>
+				<li><p><a href="/diseases/{{ a.disease.id }}/">{{ a.disease.disease_name|capfirst }} ({{ a.disease.disease_shortname|capfirst }})</a></p></li>
+			</ul>
+			{% endfor %}
+			{% else %}
+			<ul>
+				<li><p><i>No diseases associated with this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+			
+			{% if gene_list %}
+			<li><p>Genes</p></li>
+			{% for a in gene_list %}
+			<ul>
+				<li><p><a href="/genes/{{ a.gene.id }}/">{{ a.gene.gene_shortname|capfirst }} ({{ a.gene.gene_name|capfirst }})</a></p></li>
+			</ul>
+			{% endfor %}
+			</ul>
+			{% endif %}
+			
+			{% if genepanel_list %}
+			<li><p>Gene panels</p></li>
+			{% for a in genepanel_list %}
+			<ul>
+				<li><p><a href="/genepanels/{{ a.genepanel.id }}/">{{ a.genepanel.genepanel_name|capfirst }} ({{ a.genepanel.genepanel_shortname|capfirst }})</a></p></li>
+			</ul>
+			{% endfor %}
+			{% endif %}
+			</ul>
+			
+		<div class="subTitleBox">Methodology</div>
+			{% if method_list %}
+			<table>
+			<thead><tr><th>Category</th><th>Technique</th><th>Platform</th></thead>
+			<tbody>
+				{% for a in method_list %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td1"><a class="table1" href="/methodcategories/{{ a.methodcategory.id }}/" target="blank">{{ a.methodcategory.method_category }}</a></td>
+						<td class="td1"><a class="table1" href="/methodtechniques/{{ a.methodtechnique.id }}/" target="blank">{{ a.methodtechnique.method_technique }}</a></td>
+						<td class="td1"><a class="table1" href="/methodplatforms/{{ a.methodplatform.id }}/" target="blank">{{ a.methodplatform.method_platform }}</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<br/>
+			{% else %}
+			<ul>
+				<li><p><i>No methodology information is available for this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+			
+		<div class="subTitleBox">Quality assessment</div>
+			{% if accreditation_list %}
+			<table>
+			<thead><tr><th>Accreditation</th><th>Issued by</th><th>Year</th></thead>
+			<tbody>
+				{% for a in accreditation_list %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td1"><b>{{ a.accreditation.accreditation_name }}</b></td>
+						<td class="td1">{{ a.accreditation.accreditation_organizer }}</td>
+						<td class="td1">{{ a.year }}</td>
+						<!--<th>Scope</th> <td style="background:yellow" class="td1">in % or link to certificate annex?</td>-->
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<br/>
+			{% else %}
+			<ul>
+				<li><p><i>No accreditation information is available for this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+
+			{% if eqa_list %}
+			<table>
+			<thead><tr><th>EQA</th><th>Issued by</th><th>Year</th></thead>
+			<tbody>
+				{% for a in eqa_list %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td1"><b>{{ a.eqa.eqa_name }}</b></td>
+						<td class="td1">{{ a.eqa.eqa_organizer }}</td>
+						<td class="td1">{{ a.year }}</td>
+						<!--<th>Score</th> <td class="td1">{{ a.scorelab }} / {{ a.scoremax }}</td>-->
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<br/>
+			{% else %}
+			<ul>
+				<li><p><i>No EQA information is available for this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+		
+		<div class="subTitleBox">Test volumes</div>
+			{% if volume_list %}
+			<table>
+			<thead><tr><th>Year</th><th>Symptom</th><th>Total</th><th>Positive</th><th>Negative</th><th>Unclassified</th><th>Carrier</th><!--<th>Failure</th>--></tr></thead>
+			<tbody>
+				{% for a in volume_list %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td0"><b>{{ a.volume.vol_year }}</b></td>
+						<td class="td2"><b>{{ a.volume.vol_symptom }}</b></td>
+						<td class="td1">{{ a.volume.vol_total }}</td>
+						<td class="td1">{{ a.volume.vol_positive }}</td>
+						<td class="td1">{{ a.volume.vol_negative }}</td>
+						<td class="td1">{{ a.volume.vol_unclassified }}</td>
+						<td class="td1">{{ a.volume.vol_carrier }}</td>
+						<!--<td class="td1"></td>-->
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<br/>
+			{% else %}
+			<ul>
+				<li><p><i>No volumes are available for this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+        
+        <div class="subTitleBox">Test volume summary</div>
+			{% if volume_list %}
+			
+			<table>
+			<thead><tr><th>Year *</th><th>Symptom</th><th>Total</th><th>Positive</th><th>Negative</th><th>Unclassified</th><th>Carrier</th><!--<th>Failure</th>--></tr></thead>
+			<tbody>	
+				{% for a in year_volume %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td0"><b>{{ a.volume__vol_year }}</b></td>
+						<td class="td2">All symptoms</td>
+						<td class="td1">{{ a.sum_total }}</td>
+						<td class="td1">{{ a.sum_positive }}</td>
+						<td class="td1">{{ a.sum_negative }}</td>
+						<td class="td1">{{ a.sum_unclassified }}</td>
+						<td class="td1">{{ a.sum_carrier }}</td>
+						<!--<td class="td1"></td>-->
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<p>* <i>Summary of volumes per year for all recorded years (<b># {{ year_volume.count }}</b>)</i></p>
+			<br/>
+			
+			<table>
+			<thead><tr><th>Year</th><th>Symptom *</th><th>Total</th><th>Positive</th><th>Negative</th><th>Unclassified</th><th>Carrier</th><!--<th>Failure</th>--></tr></thead>
+			<tbody>	
+				{% for a in symptom_volume %}
+					<tr style="background:{% cycle '#FADFD0' '#EDEEEF' %}">
+						<td class="td0">All years</td>
+						<td class="td2"><b>{{ a.volume__vol_symptom }}</b></td>
+						<td class="td1">{{ a.sum_total }}</td>
+						<td class="td1">{{ a.sum_positive }}</td>
+						<td class="td1">{{ a.sum_negative }}</td>
+						<td class="td1">{{ a.sum_unclassified }}</td>
+						<td class="td1">{{ a.sum_carrier }}</td>
+						<!--<td class="td1"></td>-->
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<p>* <i>Summary of volumes per symptom for all recorded symptoms (<b># {{ symptom_volume.count }}</b>)</i></p>
+			<br/>
+			
+			<table>
+			<thead><tr><th>Year and Symptom *</th><th>Total</th><th>Positive</th><th>Negative</th><th>Unclassified</th><th>Carrier</th><!--<th>Failure</th>--></tr></thead>
+			<tbody>				
+					<tr style="background:lightgreen">
+						<td class="td3"><b>Total for all years and symptoms</b></td>
+						<td class="td1">{{ Sums.total }}</td>
+						<td class="td1">{{ Sums.positive }}</td>
+						<td class="td1">{{ Sums.negative }}</td>
+						<td class="td1">{{ Sums.unclassified }}</td>
+						<td class="td1">{{ Sums.carrier }}</td>
+						<!--<td class="td1"></td>-->
+					</tr>
+					<tr style="background:#BDFCC9">
+						<td class="td3"><b>Average per year (rounded)</b></td>
+						<td class="td1">{% widthratio Sums.total year_volume.count 1 %}</td>
+						<td class="td1">{% widthratio Sums.positive year_volume.count 1 %}</td>
+						<td class="td1">{% widthratio Sums.negative year_volume.count 1 %}</td>
+						<td class="td1">{% widthratio Sums.unclassified year_volume.count 1 %}</td>
+						<td class="td1">{% widthratio Sums.carrier year_volume.count 1 %}</td>
+						<!--<td class="td1"></td>-->
+					</tr>
+			</tbody>
+			</table>
+			<p>* <i>Summary of volumes for all recorded years (<b># {{ year_volume.count }}</b>) and symptoms (<b># {{ symptom_volume.count }}</b>)</i></p>
+			<br/>
+			{% else %}
+			<ul>
+				<li><p><i>No volumes are available for this genetic test</i></p></li>
+			</ul>
+			{% endif %}
+
+		<div class="subTitleBox">Test performance</div>
+		<ul>
+			{% if genetictest.test_analyticalsensitivity %}
+				<li><p><i>Analytical sensitivity:</i> {{ genetictest.test_analyticalsensitivity }}</p></li>
+			{% else %}
+				<li><p><i>Analytical sensitivity:</i> not specified</p></li>
+			{% endif %}
+			{% if genetictest.test_analyticalspecificity %}
+				<li><p><i>Analytical specificity:</i> {{ genetictest.test_analyticalspecificity }}</p></li>
+			{% else %}
+				<li><p><i>Analytical specificity:</i> not specified</p></li>
+			{% endif %}
+			{% if genetictest.test_analyticalprecision %}
+				<li><p><i>Analytical precision:</i> {{ genetictest.test_analyticalprecision }}</p></li>
+			{% else %}
+				<li><p><i>Analytical precision:</i> not specified</p></li>
+			{% endif %}
+			{% if genetictest.test_clinicalvalidity %}
+				<li><p><i>Clinical validity:</i> {{ genetictest.test_clinicalvalidity }}</p></li>
+			{% else %}
+				<li><p><i>Clinical validity:</i> not specified</p></li>
+			{% endif %}
+			{% if genetictest.test_clinicalutility %}
+				<li><p><i>Clinical utility:</i> {{ genetictest.test_clinicalutility }}</p></li>
+			{% else %}
+				<li><p><i>Clinical utility:</i> not specified</p></li>
+			{% endif %}
+		</ul>
+		
+		<div class="subTitleBox">Test financials</div>
+		<ul>
+			<li><p><i>Cost:</i> {{ genetictest.test_cost }} euro</p></li>
+			<li><p><i>RIZIV code - description:</i> {{ genetictest.test_rizivcode.riziv_code }} - {{ genetictest.test_rizivcode.riziv_description }}</p></li>
+			<li><p><i>Honorarium:</i> {{ genetictest.test_rizivcode.riziv_honorarium }} euro</p></li>
+			<li><p><i>Reimbursement:</i> {{ genetictest.test_rizivcode.riziv_ambulantreimbursement }} euro (Ambulant) - {{ genetictest.test_rizivcode.riziv_hospitalizedreimbursement }} euro (Hospitalized)</p></li>
+		</ul>
+	<br/>
+	</div>
+
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+	
+</body>
+</html>

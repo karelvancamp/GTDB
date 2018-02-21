@@ -1,0 +1,116 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Genes</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2015" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+	<script>
+    	function toggle_visibility(id) {
+       		var e = document.getElementById(id);
+       			if(e.style.display == 'block')
+          			e.style.display = 'none';
+       			else
+          			e.style.display = 'block';
+    	}
+	</script>
+	
+	<script>
+    	function toggle_content(id) {
+       		var f = document.getElementById(id);
+       			if(f.innerHTML == 'show')
+          			f.innerHTML = 'hide';
+       			else
+          			f.innerHTML = 'show';
+    	}
+	</script>
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="Personnel" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="current" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="Home" href="/gtdb/" >Home</a>
+	</div>
+	
+	<div class='middleBox'>
+	
+		<div class="subTitleBox">List of genes</div>
+		<p>
+			<button style="width:120px; color:#E96015; border:1px solid #E96015; border-radius:5px; cursor:pointer" onclick="toggle_visibility('genes');toggle_content('p1');"><b id=p1>show</b> genes</button>
+		</p>
+		<div id="genes" style="display:none">
+		{% if gene_list %}
+			{% for gene in gene_list %}
+			<ul>
+				<li>
+					<p><a href="/genes/{{ gene.id }}/" target="blank">{{ gene.gene_name|capfirst }} ({{ gene.gene_shortname|capfirst }})</a></p>
+				</li>
+			</ul>
+			{% endfor %}	
+		{% else %}
+			<h1>No genes are available.</h1>
+		{% endif %}
+		</div>
+		
+		<div class="subTitleBox">List of gene panels</div>
+		<p>
+			<button style="width:120px; color:#E96015; border:1px solid #E96015; border-radius:5px; cursor:pointer" onclick="toggle_visibility('genepanels');toggle_content('p2');"><b id=p2>show</b> gene panels</button>
+		</p>
+		<div id="genepanels" style="display:none">
+		{% if genepanel_list %}
+			{% for genepanel in genepanel_list %}
+			<ul>
+				<li>
+					<p><a href="/genepanels/{{ genepanel.id }}/" target="blank">{{ genepanel.genepanel_name|capfirst }} ({{ genepanel.genepanel_shortname|capfirst }})</a></p>
+				</li>
+			</ul>
+			{% endfor %}	
+		{% else %}
+			<h1>No gene panels are available.</h1>
+		{% endif %}
+		</div>
+		</br>
+		
+	</div>
+	
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+
+</body>
+</html>

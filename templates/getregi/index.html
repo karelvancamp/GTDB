@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GTDB - Home</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2015" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="Personnel" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="Genes" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="current" href="/gtdb/" >Home</a>
+	</div>
+	
+	<div class="middleBox">
+		<div class="subTitleBox">Introduction</div>
+		</br>
+		<p><i><b>write an introduction to the website, scope, users, genetic testing, funding, functionalities...</b></i></p>
+		<br/>
+		<p>The Genetic Test DataBase (GTDB) supplies a registry of genetic tests provided by the eight <a href="/laboratories/" target="blank">
+		Centers for Human Genetics (CHG)</a> located in Belgium, including detailed contact information for each center, the 
+		<a href="/genes/" target="blank">genes</a> and <a href="/diseases/" target="blank">diseases</a> targeted by a specific test, financial aspects, 
+		as well as information about the test methodologies, purpose, performance, volumes, and quality assessment.</p>
+		<br/>
+		<p>De verplichte ziekteverzekering betaalt de onderzoeken die op menselijk genetisch materiaal worden uitgevoerd en die zijn opgenomen in 
+		artikel 33 en artikel 33bis van de nomenclatuur van de geneeskundige verstrekkingen, indien ze worden uitgevoerd in erkende laboratoria en 
+		door gekwalificeerde zorgverleners.</p>
+		<p>* Onderzoeken vermeld in 
+		<a href="http://www.riziv.fgov.be/nl/nomenclatuur/nomen/Paginas/nomen-artikel33bis.aspx" target="blank">
+			<b>artikel 33bis</b>
+		</a> worden terugbetaald als ze zijn uitgevoerd door een laboratorium voor klinische biologie of 
+		een laboratorium voor anatomopathologie dat door het WIV is erkend of door een een laboratorium van een centrum voor genetica dat de 
+		ISO-norm 15189 (toegekend door BELAC) voor het uitgevoerde onderzoek heeft behaald.</p>
+		<p>* Onderzoeken vermeld in 
+		<a href="http://www.riziv.fgov.be/nl/nomenclatuur/nomen/Paginas/nomen-artikel33.aspx" target="blank">
+			<b>artikel 33</b> 
+		</a> worden terugbetaald als ze zijn uitgevoerd door een laboratorium dat overeenkomstig het KB van 
+		14/12/1987 tot één van de 
+		<a href="http://www.riziv.fgov.be/SiteCollectionDocuments/liste-lijst-centra-antropogenetica-erkend.pdf" target="blank"> 
+			8 erkende centra voor antropogenetica 
+		</a>
+		behoren en als ze zijn uitgevoerd door een arts daartoe gemachtigd door de minister van Volksgezondheid.</p>
+		
+		<div class="subTitleBox">Interesting links</div>
+		</br>
+		<ul>
+			<li><p><b><a href="http://www.eurogentest.org/" target="blank">EuroGentest</b></p></a></li>
+			<li><p><b><a href="http://www.orpha.net/" target="blank">Orphanet</b></p></a></li>
+			<li><p><b><a href="http://www.ncbi.nlm.nih.gov/GTR/" target="blank">Genetic Testing Registry (GTR)</b></p></a></li>
+			<li><p><b><a href="http://ukgtn.nhs.uk/" target="blank">UK Genetic Testing Network (UKGTN)</b></p></a></li>
+			<li><p><b><a href="http://www..omim.org" target="blank">Online Mendelian Inheritance in Man (OMIM)</b></p></a></li>
+			<li><p><b><a href="http://www.beshg.be/" target="blank">Belgian Society of Human Genetics (BeSHG)</b></p></a></li>
+			<li><p><b><a href="http://www.riziv.fgov.be/nl/" target="blank">Rijksinstituut voor ziekte- en invaliditeitsverzekering (RIZIV)</b></a> / <b><a href="http://www.inami.fgov.be/" target="blank">Institut national d'assurance maladie-invalidité (INAMI)</b></p></a></li>
+			<li><p><b><a href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">Wetenschappelijk Instituut Volksgezondheid (WIV)</b></a> / <b><a href="http://www.wiv-isp.be/Pages/FR-Home.aspx" target="blank">Institut Scientifique de Santé Publique (ISP)</b></p></a></li>
+		</ul>
+		<br/>
+
+	</div>
+	
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+	
+</body>
+</html>

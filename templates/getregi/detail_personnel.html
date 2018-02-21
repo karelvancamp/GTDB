@@ -1,0 +1,98 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Personnel - {{ personnel.pers_lastname }}, {{ personnel.pers_firstname }}</title>
+	<meta name="author" content="Kim Van Roey" />
+	<meta name="date" content="21/08/2012" />
+	<meta name="language" content="english" />
+	<meta name="charset" content="utf-8" />
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js""></script>
+	<noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'getregi/gtdb_style.css' %}" />
+	
+</head>
+
+<body>
+	
+	<div class="headerBox">
+		<img class="titleImg" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="75" height="60" border="1px solid #FFFFFF" />
+		<a class="navigationBar" id="Personnel" href="/personnel/" >Personnel</a>
+		<a class="navigationBar" id="Laboratories" href="/laboratories/" >Laboratories</a>
+		<a class="navigationBar" id="Methodology" href="/methodology/" >Methodology</a>
+		<a class="navigationBar" id="Genetictests" href="/genetictests/" >Genetic tests</a>
+		<a class="navigationBar" id="Genes" href="/genes/" >Genes</a>
+		<a class="navigationBar" id="Diseases" href="/diseases/" >Diseases</a>
+		<a class="navigationBar" id="Browse" href="/browse/" >Browse</a>
+		<a class="navigationBar" id="Search" href="/search/" >Search</a>
+		<a class="navigationBar" id="Home" href="/gtdb/" >Home</a>
+	</div>
+	
+	<div class='middleBox'>
+		<h1>{{ personnel.pers_title|capfirst }} {{ personnel.pers_lastname|capfirst }}, {{ personnel.pers_firstname|capfirst }}</h1>
+		
+		<div class="subTitleBox">Affiliation</div>
+			<ul>
+			{% if personnel.pers_persdirector %}
+			<li>
+				<p><i>Laboratory:</i> <a href="/laboratories/{{ personnel.pers_lab.id }}/" target="blank">{{ personnel.pers_lab }} (Laboratory Director)</a></p>
+			</li>
+			{% else %}
+			<li>
+				<p><i>Laboratory:</i> <a href="/laboratories/{{ personnel.pers_lab.id }}/" target="blank">{{ personnel.pers_lab }}</a></p>
+			</li>
+			{% endif %}
+			<li>
+				<p><i>Function:</i> {{ personnel.pers_jobtitle }}</p>
+			</li>
+			<li>
+				<p><i>Degree:</i> {{ personnel.pers_degree }}</p>
+			</li>
+			</ul>
+		
+		<div class="subTitleBox">Contact</div>
+		<ul>
+			<li><p><i>Phone:</i> {{ personnel.pers_phone }}</p></li>
+			<li><p><i>Fax:</i> {{ personnel.pers_fax }}</p></li>
+			<li><p><i>E-mail:</i> {{ personnel.pers_email }}</p></li>
+		</ul>
+		
+		{% if personnel.genetictest_set.all %}
+		<div class="subTitleBox">Genetic tests</div>
+			{% for a in personnel.genetictest_set.all %}
+			<ul>
+				<li>
+					<p><a href="/genetictests/{{ a.id }}/">{{ a.test_name|capfirst }} ({{ a.test_lab.lab_name|capfirst }})</a></p>
+				</li>
+			</ul>
+			{% endfor %}
+		{% else %}
+		<br/>
+		{% endif %}
+	</div>
+	
+	<div class="footerBox">
+		<p class="footerText">IN COLLABORATION WITH</p>
+		<div class="titleBox">
+		<a class="img" href="http://www.wiv-isp.be/Pages/NL-Home.aspx" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/wiv-isp_2.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.riziv.fgov.be/nl/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/riziv.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.inami.fgov.be/" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/inami.png' %}" width="51" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.health.belgium.be/eportal/index.htm" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/fod.png' %}" width="42" height="40" border="1px solid #FFFFFF" />
+		</a>
+		<a class="img" href="http://www.orpha.net" target="blank">
+		<img class="palign_img" src="{% static 'getregi/images/orphanet.png' %}" width="188" height="40" border="1px solid #FFFFFF" />
+		</a>
+		</div>
+	</div>
+	
+</body>
+</html>

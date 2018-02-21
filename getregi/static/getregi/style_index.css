@@ -1,0 +1,26 @@
+body {
+	width: 100%;
+	background-color: lightgrey;
+}
+
+.middleBox {
+	width: 98%;
+	background-color: white;
+	float: center;
+	margin: 10px 10px 10px 10px;
+}
+
+.middleBoxCenter {
+	width: 96%;
+}
+
+li a {
+	color: darkblue;
+	font-family: arial;
+	font-size: 18px;
+}
+
+h1 {
+	color: darkblue;
+	font-family: arial;
+}
